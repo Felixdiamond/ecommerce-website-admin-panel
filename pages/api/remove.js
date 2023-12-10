@@ -1,25 +1,28 @@
-import { Client } from "minio";
+import { S3Client, DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 export default async function handle(req, res) {
   const imageUrl = req.query.url;
 
   // Parse the image URL to get the bucket name and object name
   const urlParts = imageUrl.split('/');
-  const bucketName = urlParts[urlParts.length - 2];
+  const bucketName = "ninebooks";
   const objectName = urlParts[urlParts.length - 1];
 
-  // Create a new Minio Client
-  const minioClient = new Client({
-    endPoint: "localhost",
-    port: 9000,
-    useSSL: false,
-    accessKey: process.env.MINIO_ACCESS_KEY,
-    secretKey: process.env.MINIO_SECRET_ACCESS_KEY,
+  // Create a new S3 Client
+  const client = new S3Client({
+    region: 'us-east-1',
+    credentials: {
+      accessKeyId: process.env.S3_ACCESS_KEY,
+      secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    },
   });
 
   try {
-    // Remove the object from Minio
-    await minioClient.removeObject(bucketName, objectName);
+    // Remove the object from S3
+    await client.send(new DeleteObjectCommand({
+      Bucket: bucketName,
+      Key: objectName,
+    }));
 
     res.status(200).json({ message: 'Image removed successfully' });
   } catch (err) {

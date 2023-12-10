@@ -63,6 +63,9 @@ export default function ProductForm({
       await axios.post("/api/products", data);
     }
     for (const imageUrl of removedImages) {
+      if (!imageUrl) {
+        continue;
+      }
       await axios.delete(`/api/remove?url=${encodeURIComponent(imageUrl)}`);
     }
     setGoToProducts(true);
