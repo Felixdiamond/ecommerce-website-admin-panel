@@ -4,7 +4,7 @@ import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "../../../lib/mongodb";
 import { noSSR } from "next/dynamic";
 
-const adminEmails = ["diamondfelix006@gmail.com"];
+const adminEmails = ["diamondfelix006@gmail.com", "ogbenigibson@gmail.com"];
 
 export const authOptions = {
   providers: [
