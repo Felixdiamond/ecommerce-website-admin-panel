@@ -5,7 +5,7 @@ export default async function handle(req, res) {
 
   // Parse the image URL to get the bucket name and object name
   const urlParts = imageUrl.split('/');
-  const bucketName = "ninebooks";
+  const bucketName = "nin3books";
   const objectName = urlParts[urlParts.length - 1];
 
   // Create a new S3 Client
